@@ -1,5 +1,5 @@
 import React from 'react'
-import AuthLeft from '../../components/authentication/authLeft'
+import AuthLeft from '../../components/authentication/AuthLeft'
 import RegistrationIcon from '../../svg/RegistrationIcon'
 import RegistrationForm from '../../components/authentication/RegistrationForm'
 import { Helmet } from 'react-helmet-async'

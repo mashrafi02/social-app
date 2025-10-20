@@ -1,14 +1,9 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import MiddleIndex from '../../components/Home_Components/HomeMiddle/MiddleIndex'
 
 const Home = () => {
 
-  const user = useSelector(state => state.auth.user)
-  console.log(user) //undefined
-
-  return (
-    <div>Home</div>
-  )
+  return ( <MiddleIndex /> )
 }
 
 export default Home
