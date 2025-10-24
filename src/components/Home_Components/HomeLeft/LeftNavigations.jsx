@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Settings from './settings_components/Settings';
-import { IoChevronDown } from "react-icons/io5";
+
 
 const LeftNavigations = ({data}) => {
 
@@ -12,38 +12,33 @@ const LeftNavigations = ({data}) => {
         data.navigate === undefined? (
             <div className='relative'>
                 <div className={
-                    `block px-6 py-4 mb-7 rounded-full group hover:bg-cyan-100 transition-all ease-linear duration-100 cursor-pointer ${show ? 'bg-cyan-100 text-gray-800' : ''}`}
+                    `block 2xl:px-6 2xl:py-4 2xl:mb-7 rounded-full group 2xl:hover:bg-cyan-100 transition-all ease-linear duration-100 cursor-pointer ${show ? '2xl:bg-cyan-100 2xl:text-gray-800 text-rose-500' : ''}`}
                     onClick={() => setShow(prev => !prev)}
                 >
-                    <div className='flex gap-x-6 items-center'>
-                        <span className='group-hover:text-gray-800 transition-all ease-linear duration-100'>
+                    <div className='flex 2xl:gap-x-8 items-center lg:justify-center 2xl:justify-normal'>
+                        <span className='hover:text-rose-500 2xl:group-hover:text-gray-800 transition-all ease-linear duration-100'>
                             <NavIcon />
                         </span>
-                        <span className='font-gilroySemibold text-base group-hover:text-gray-800 transition-all ease-linear duration-100'>
+                        <span className='hidden 2xl:inline-block font-gilroySemibold text-base group-hover:text-gray-800 transition-all ease-linear duration-100'>
                             {data.title}
                         </span>
-                        <IoChevronDown 
-                            className='duration-300 text-base text-[#303030]'
-                            style={{
-                                transform: show? "rotate(180deg)" : "rotate(0deg)"
-                        }}/>
                     </div>
                 </div>
-                <Settings show={show}/>
+                <Settings show={show} setShow={setShow}/>
             </div>
         ) : (
             <NavLink
                 to={data.navigate}
                 className={({ isActive }) =>
-                `block px-6 py-4 mb-2 rounded-full group hover:bg-cyan-100 transition-all ease-linear duration-100  
-                ${isActive ? 'bg-cyan-100 text-gray-800' : ''}`
+                `block 2xl:px-6 2xl:py-4 lg:mb-8 2xl:mb-2 rounded-full group 2xl:hover:bg-cyan-100 transition-all ease-linear duration-100  
+                ${isActive ? '2xl:bg-cyan-100 2xl:text-gray-800 text-cyan-500' : ''}`
                 }
             >
-                <div className='flex gap-x-6 items-center'>
-                    <span className='group-hover:text-gray-800 transition-all ease-linear duration-100'>
+                <div className='flex 2xl:gap-x-8 items-center lg:justify-center 2xl:justify-normal'>
+                    <span className='hover:text-cyan-500 2xl:group-hover:text-gray-800 transition-all ease-linear duration-100'>
                         <NavIcon />
                     </span>
-                    <span className='font-gilroySemibold text-base group-hover:text-gray-800 transition-all ease-linear duration-100'>
+                    <span className='hidden 2xl:inline-block font-gilroySemibold text-base group-hover:text-gray-800 transition-all ease-linear duration-100'>
                         {data.title}
                     </span>
                 </div>

@@ -4,7 +4,7 @@ import Stories from './Stories';
 
 const RightIndex = () => {
   return (
-    <div className='pr-8'>
+    <div className='2xl:pr-8 pr-5'>
       <FriendRequests />
       <Stories />
     </div>

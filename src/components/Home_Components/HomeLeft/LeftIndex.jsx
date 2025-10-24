@@ -9,7 +9,7 @@ const LeftIndex = () => {
         <div>
             <LeftProfile />
         </div>
-        <div className='pl-8'>
+        <div className='2xl:pl-8 mt-14 2xl:mt-0'>
             {
                 leftNavs.map((data, index) => (
                     <LeftNavigations key={index} data={data}/>

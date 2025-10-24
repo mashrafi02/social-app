@@ -2,15 +2,19 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Moon } from '../../../../svg/Moon';
 import { Logout } from '../../../../svg/Logout';
 import DisplayMode from './dispaly/DisplayMode';
+import clickOutside from '../../../../utils/click';
 
-const Settings = ({show}) => { 
+
+const Settings = ({show, setShow}) => { 
 
     const [maxHeight, setMaxHeight] = useState("0px"); 
-    const dropdownBrandRef = useRef(null);
+    const dropdownSettingsRef = useRef(null);
     const [display, setDisplay] = useState(false);
+
+    clickOutside(dropdownSettingsRef, () => setShow(false));
     
     useEffect(() => { 
-        if (show && dropdownBrandRef.current) { 
+        if (show && dropdownSettingsRef.current) { 
           setMaxHeight(`500px`); 
         } else { 
           setMaxHeight("0px"); 
@@ -19,8 +23,8 @@ const Settings = ({show}) => {
 
 
     return ( 
-      <div className='w-full shadow-md flex justify-center items-center rounded-md absolute top-14 left-0 overflow-hidden transition-[max-height] duration-300 ease-in-out' 
-      ref={dropdownBrandRef} style={{maxHeight}}> 
+      <div className='w-[250px] shadow-md flex justify-center items-center rounded-md absolute top-10 lg:top-8 2xl:top-14 right-[-50px] sm:right-[-106px] lg:left-0 overflow-hidden transition-[max-height] duration-300 ease-in-out' 
+      ref={dropdownSettingsRef} style={{maxHeight}}> 
         {
           display? (
             <DisplayMode setDisplay={setDisplay}/>

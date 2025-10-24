@@ -6,6 +6,7 @@ import NotLoggedIn from "./components/Private_RouteLayouts/NotLoggedIn";
 import LoggedIn from "./components/Private_RouteLayouts/LoggedIn";
 import Rootlayout from "./Layout/Rootlayout";
 import 'swiper/css';
+import CreatePost from "./components/Home_Components/HomeMiddle/CreatePost Component/CreatePost";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <>
+      <CreatePost />
       <RouterProvider router={router}/>
     </>
   )
