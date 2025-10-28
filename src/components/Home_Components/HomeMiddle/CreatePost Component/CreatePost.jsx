@@ -5,7 +5,7 @@ import AddPostContent from './AddPostContent';
 import ImageViewer from './ImageViewer';
 
 
-const CreatePost = () => {
+const CreatePost = ({setOpenPost}) => {
 
   const statusArea = useRef(null);
   const [status, setStatus] = useState('');
@@ -13,10 +13,10 @@ const CreatePost = () => {
   const [images, setImages] = useState([]);
 
   return (
-    <div className='w-full absolute top-0 left-0 h-screen bg-blur z-20 flex justify-center items-center'>
+    <div className='w-full fixed top-0 left-0 h-screen bg-blur z-20 flex justify-center items-center'>
         <div className='bg-white w-[35%] p-3 rounded-md shadow-md relative'>
             <h1 className='font-gilroyBold text-center border-b border-gray-50'>Create Post</h1>
-            <span className='absolute top-2 right-2 cursor-pointer'>
+            <span className='absolute top-2 right-2 cursor-pointer' onClick={() => setOpenPost(false)}>
                 <CircleCloseIcon />
             </span>
             <div className='flex items-center gap-x-3 my-4'>

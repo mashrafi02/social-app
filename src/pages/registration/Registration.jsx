@@ -11,7 +11,7 @@ const Registration = () => {
           <Helmet>
             <title>Registration</title>
           </Helmet>
-          <Toaster position="top-center" reverseOrder={false} />
+          <Toaster position="top-center" reverseOrder={false} toastOptions={{duration:5000}}/>
           <div className='relative'>
             <div className='hidden lg:block w-[500px] h-[500px] bg-purple-100 rounded-full absolute top-[-240px] left-[-240px] z-[-1]'/>
             <div className='container h-screen flex sm:flex-col lg:flex-row justify-center items-center lg:gap-6'>

@@ -6,10 +6,30 @@ import NotLoggedIn from "./components/Private_RouteLayouts/NotLoggedIn";
 import LoggedIn from "./components/Private_RouteLayouts/LoggedIn";
 import Rootlayout from "./Layout/Rootlayout";
 import 'swiper/css';
-import CreatePost from "./components/Home_Components/HomeMiddle/CreatePost Component/CreatePost";
+import Verification from "./pages/Verification";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "./features/authentication/authSlice";
+import ForgotPassIndex from "./pages/Forget passwrod/ForgotPassIndex";
+
 
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'currentLoggedUser') {
+        const newUser = JSON.parse(e.newValue);
+        dispatch(setUser(newUser));
+      }
+    };
+  
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [dispatch]);
+  
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,13 +43,15 @@ function App() {
           <Route path="/registration" element={<Registration />}/>
           <Route path="/login" element={<Login />}/>
         </Route>
+        <Route path="/verify/:token" element={<Verification />} />
+        <Route path="/forgot-password" element={<ForgotPassIndex />} />
       </Route>
     )
   )
 
+
   return (
     <>
-      <CreatePost />
       <RouterProvider router={router}/>
     </>
   )

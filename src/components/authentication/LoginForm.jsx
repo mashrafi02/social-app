@@ -80,12 +80,13 @@ const LoginForm = ({toast}) => {
                            value={formik.values.password}
                            className='w-full font-gilroyNormal px-4 py-2 focus:outline-none border border-line_color rounded-md' />
                     </div>
-                    <div className='w-full flex flex-col md:flex-row gap-x-8 items-center'>
+                    <div className='w-full flex flex-col md:flex-row justify-between items-center'>
                         <button type='submit' disabled={isLoading} className='inline-block px-6 py-2 rounded-full bg-secondary_bg text-white font-gilroyBold tracking-widest cursor-pointer hover:bg-gray-500 duration-200'>
                             {isLoading? 'Logging In...' : "Log In"}
                         </button>
-                        <p className='font-gilroyNormal text-base mt-4 md:mt-0'>Don't have an account? <Link to='/registration' className='text-primary_color font-gilroyBold cursor-pointer'>Register</Link></p>
+                        <p className='font-gilroyNormal text-base mt-4 md:mt-0'>Don't remember password? <Link to='/forgot-password' className='text-primary_color font-gilroyBold cursor-pointer'>forgot password</Link></p>
                     </div>
+                    <p className='font-gilroyNormal text-base mt-4 md:mt-0'>Don't have an Account? <Link to='/registration' className='text-primary_color font-gilroyBold cursor-pointer'>Register</Link></p>
                 </form>
             </div>
         </div>

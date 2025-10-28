@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { regValidation } from '../../utils/regFormValidation'
@@ -24,14 +24,17 @@ const initialValues = {
 const RegistrationForm = ({toast}) => {
 
     const [ageError, setAgeError] = useState(null);
-    const [createUser, {isLoading, isSuccess}] = useCreateUserMutation();
+    const [createUser, {isLoading}] = useCreateUserMutation();
     const navigate = useNavigate();
+      
 
     const registration = async (body) => {
         const response = await createUser(body)
         if(response?.data) {
-            toast.success('Account created Successfully')
-            navigate('/login', {replace:true})
+            toast.success('Account created successfully! Check your email to verify your Account');
+            setTimeout(() => {
+                navigate('/login', { replace: true });
+            }, 5000);
         }else if(response?.error){
             toast.error(response?.error?.data?.message)
         }
