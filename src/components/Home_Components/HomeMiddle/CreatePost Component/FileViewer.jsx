@@ -3,43 +3,51 @@ import EmojiPickers from './EmojiPickers';
 import { CircleCloseIcon } from '../../../../svg/CircleClose';
 import { Media } from '../../../../svg/Media';
 import { CrossIcon } from '../../../../svg/Cross';
+import toast from 'react-hot-toast';
 
 
-const ImageViewer = ({status, setStatus, statusArea, setShowImageViewer, images, setImages}) => {
+const FileViewer = ({status, setStatus, statusArea, setShowFilesViewer, files, setFiles}) => {
 
     const chooseFile = useRef(null);
 
     function handleFile(e) {
-        const files = Array.from(e.target.files);
+        let files = Array.from(e.target.files);
       
-        files.forEach((img) => {
-          if (
-            img.type !== "image/jpeg" &&
-            img.type !== "image/jpg" &&
-            img.type !== "image/png" &&
-            img.type !== "image/webp" &&
-            img.type !== "image/gif"
-          ) {
-            console.log("Invalid file type");
-            return;
-          }
+        files.forEach((file) => {
+            const isImage = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.type);
+            const isVideo = file.type === 'video/mp4';
+        
+            if (!isImage && !isVideo) {
+                files = files.filter(f => f.name !== file.name)
+                return toast.error('Unsupported file! Only jpeg,jpg,png,webp,gif are allowed!')
+            }
+        
+            if (isVideo && file.size > 2 * 1024 * 1024 * 1024) {
+                files = files.filter(f => f.name !== file.name)
+                return toast.error(`${file.name} exceeds the limit of 2GB video file size`);
+            }
+        
+            if (isImage && file.size > 2 * 1024 * 1024) {
+                files = files.filter(f => f.name !== file.name)
+                return toast.error(`${file.name} exceeds the limit of 2MB image file size`);
+            }
       
-          const reader = new FileReader();
-          reader.readAsDataURL(img);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
       
-          reader.onload = (event) => {
+            reader.onload = (event) => {
             const base64 = event.target.result;
       
-            setImages((prev) => {
+            setFiles((prev) => {
               const alreadyExists = prev.some(
-                (item) => item.name === img.name && item.size === img.size
+                (item) => item.name === file.name && item.size === file.size
               );
       
               if (alreadyExists) return prev; // skip duplicates
       
               return [
                 ...prev,
-                { name: img.name, size: img.size, src: base64 },
+                { name: file.name, size: file.size, type: file.type, src: base64 },
               ];
             });
           };
@@ -54,40 +62,50 @@ const ImageViewer = ({status, setStatus, statusArea, setShowImageViewer, images,
         <div className='w-full p-2 rounded-md border border-line_color mb-3 relative'>
             <input  type="file" 
                     multiple 
-                    accept='image/jpeg, image/jpg, image/webp, image/png, image/gif' 
+                    accept='image/jpeg, image/jpg, image/webp, image/png, image/gif, video/mp4' 
                     className='hidden' 
                     ref={chooseFile} 
                     onChange={handleFile}/>
             {
-                images.length > 0 ? (
+                files.length > 0 ? (
                     <div
                         className={`w-full h-[350px] rounded-md bg-gray-900 overflow-hidden
                             ${
-                                images.length > 1 && 'grid gap-1'
+                                files.length > 1 && 'grid gap-1'
                             }
                             ${
-                              images.length === 2 ? 'grid-cols-2' :
-                              images.length === 3 ? 'grid-cols-2 grid-rows-2' :
-                              images.length >= 4 ? 'grid-cols-2 grid-rows-2' : ''}
+                              files.length === 2 ? 'grid-cols-2' :
+                              files.length === 3 ? 'grid-cols-2 grid-rows-2' :
+                              files.length >= 4 ? 'grid-cols-2 grid-rows-2' : ''}
                         `}
                         >
-                        {images.slice(0,4).map((img, index) => (
-                            <img
-                            key={index}
-                            src={img.src}
-                            alt={img.name}
-                            className={`w-full h-full ${images.length === 1 ? 'object-contain' : 'object-cover'} ${
-                                images.length === 3 && index === 0
-                                ? 'row-span-2'
-                                : ''
-                            }`}
-                            />
+                        {files.slice(0, 4).map((file, index) => (
+                            file.type === "video/mp4" ? (
+                                <video
+                                key={index}
+                                src={file.src}
+                                controls
+                                className={`w-full h-full rounded-md ${files.length === 1 ? 'object-contain' : 'object-cover'} ${
+                                    files.length === 3 && index === 0 ? 'row-span-2' : ''
+                                }`}
+                                />
+                            ) : (
+                                <img
+                                key={index}
+                                src={file.src}
+                                alt={file.name}
+                                className={`w-full h-full rounded-md ${files.length === 1 ? 'object-contain' : 'object-cover'} ${
+                                    files.length === 3 && index === 0 ? 'row-span-2' : ''
+                                }`}
+                                />
+                            )
                         ))}
+
                         <div 
                             className='w-8 h-8 rounded-full bg-white flex items-center justify-center absolute top-3 right-3 z-20 cursor-pointer'
                             onClick={() => {
-                                setImages([]);
-                                setShowImageViewer(false)
+                                setFiles([]);
+                                setShowFilesViewer(false)
                         }}>
                             <CrossIcon />
                         </div>
@@ -97,9 +115,9 @@ const ImageViewer = ({status, setStatus, statusArea, setShowImageViewer, images,
                                 Add More
                         </div>
                         {
-                            images.length >= 5 && (
+                            files.length >= 5 && (
                                 <div className='w-16 h-16 rounded-full bg-white flex justify-center items-center absolute bottom-[60px] right-[120px] z-20 opacity-80'>
-                                    <span className='font-gilroyBold text-3xl mb-[-5px]'>+{images.length - 4}</span>
+                                    <span className='font-gilroyBold text-3xl mb-[-5px]'>+{files.length - 4}</span>
                                 </div>
                             )
                         }
@@ -118,7 +136,7 @@ const ImageViewer = ({status, setStatus, statusArea, setShowImageViewer, images,
                         </div>
                     </div>
                     <div className='absolute top-3 right-3 z-30 text-white cursor-pointer text-rose-600'
-                        onClick={() => setShowImageViewer(false)}>
+                        onClick={() => setShowFilesViewer(false)}>
                         <CircleCloseIcon />
                     </div>
                 </>
@@ -129,4 +147,4 @@ const ImageViewer = ({status, setStatus, statusArea, setShowImageViewer, images,
   )
 }
 
-export default ImageViewer
+export default FileViewer

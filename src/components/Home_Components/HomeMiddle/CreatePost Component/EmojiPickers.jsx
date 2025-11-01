@@ -3,13 +3,16 @@ import { CircleCloseIcon } from '../../../../svg/CircleClose'
 import EmojiPicker from 'emoji-picker-react'
 import Feeling from '../../../../svg/Feeling'
 import clickOutside from '../../../../utils/click'
+import postBackgrounds from '../data.js'
 
 
-const EmojiPickers = ({status, setStatus, statusArea, changePart}) => {
+const EmojiPickers = ({status, setStatus, statusArea, changePart, bg, setbg}) => {
 
     const [emoji, setEmoji] = useState(false);
     const [cursor, setCursor] = useState();
+    const [showBg, setShowBg] = useState(false);
     const emoPicker = useRef(null);
+
 
     clickOutside(emoPicker, () => setEmoji(false))
 
@@ -30,15 +33,31 @@ const EmojiPickers = ({status, setStatus, statusArea, changePart}) => {
     }, [cursor]);
 
 
+    function handleBgClick(index){
+        setbg(postBackgrounds[index]);
+        statusArea.current.classList.add('bgTextArea')
+        statusArea.current.focus()
+    }
+
+
   return (
     <>
-        <div className={changePart ? 'flex justify-between relative' : ""}>
+        <div className={changePart ? 'flex justify-between relative' : ""}
+                style={{
+                    backgroundImage: bg ? `url(${bg})` : 'none',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    height: bg && '390px'
+                }}>
             <textarea name="status" id="status" 
-                className='w-full min-h-[100px] focus:outline-none pt-2 font-gilroyNormal' placeholder="What's on your mind?...." 
+                className='w-full min-h-[100px] focus:outline-none pt-2 font-gilroyNormal bg-transparent resize-none' placeholder="What's on your mind?...." 
                 ref={statusArea}
                 value={status}
                 maxLength={200}
-                onChange={(e) => setStatus(e.target.value)}></textarea>
+                onChange={(e) => setStatus(e.target.value)}
+                style={{
+                    paddingTop: bg && `${Math.abs(statusArea.current.value.length * 0.05 - 25)}%`
+                }}></textarea>
             {
                 changePart && (
                     <>
@@ -59,8 +78,31 @@ const EmojiPickers = ({status, setStatus, statusArea, changePart}) => {
         {
             !changePart && (
                 <div className='my-2 flex justify-between items-center relative mt-4'>
-                    <div>
-                        <div className='w-10 h-10 rounded-md bg-gradient-to-r from-cyan-300 to-purple-100 cursor-pointer'></div>
+                    <div className="flex items-center gap-x-1 flex-wrap">
+                        <div className='w-10 h-10 rounded-md bg-gradient-to-r from-cyan-300 to-purple-100 cursor-pointer'
+                        onClick={() => {
+                            setShowBg(prev => !prev);
+                            setbg('');
+                            statusArea.current.classList.remove('bgTextArea')}}></div>
+
+                        { showBg &&
+                            <>
+                                <div className='w-10 h-10 rounded-md bg-white border border-blue cursor-pointer'
+                                onClick={() => {
+                                    setbg('');
+                                    statusArea.current.classList.remove('bgTextArea')
+                                }}></div>
+                                {
+                                postBackgrounds.map((back, index) => (
+                                    <div className='w-10 h-10 rounded-md cursor-pointer overflow-hidden'
+                                            key={index}
+                                            onClick={() => {handleBgClick(index)}}>
+                                        <img src={back} alt="backgrounds" className='w-full h-full object-cover'/>
+                                    </div>
+                                ))
+                                }
+                            </>
+                        }
                     </div>
                     <div className='cursor-pointer w-8 h-8 rounded-full hover:bg-gray-100 flex justify-center items-center transition-all ease-linear duration-100'
                     onClick={() => setEmoji(prev => !prev)}>

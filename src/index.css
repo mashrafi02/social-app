@@ -61,3 +61,12 @@
 .swiper{
     height: 214px;
 }
+
+.bgTextArea {
+    height: 100%;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    padding: 30px;
+}

@@ -6,7 +6,6 @@ import Feeling from '../../../svg/Feeling'
 import CreatePost from './CreatePost Component/CreatePost'
 
 
-
 const MiddleIndex = () => {
 
     const [openPost, setOpenPost] = useState(false);
