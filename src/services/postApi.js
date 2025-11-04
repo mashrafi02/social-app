@@ -1,29 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import axiosBaseQuery from "./axiosService";
 
 export const postApi = createApi({
     reducerPath: 'postApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_SERVER_URL,
-        credentials: 'include',
-        prepareHeaders: (headers, { getState }) => {
-
-            const accessTokenFromStore = getState().auth?.user?.accessToken;
-            
-            let accessTokenFromLocalStore;
-            try {
-                const user = localStorage.getItem("currentLoggedUser");
-                accessTokenFromLocalStore = user ? JSON.parse(user)?.accessToken : null;
-            } catch (err) {
-                accessTokenFromLocalStore = null;
-            }
-      
-            if (accessTokenFromStore || accessTokenFromLocalStore) {
-              headers.set("authorization", `Bearer ${accessTokenFromStore || accessTokenFromLocalStore}`);
-            }
-      
-            return headers;
-          },
-    }),
+    baseQuery: axiosBaseQuery(),
     endpoints: (build) => ({
         createPost : build.mutation({
             query : (formData) => ({
@@ -32,8 +12,14 @@ export const postApi = createApi({
                 body: formData
             })
         }),
+        getPosts : build.query({
+            query : () => ({
+                url: '/post/all-posts',
+                method: 'GET',
+            })
+        }),
     })
 })
 
 
-export const {useCreatePostMutation} = postApi
+export const {useCreatePostMutation, useGetPostsQuery} = postApi

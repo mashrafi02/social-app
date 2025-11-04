@@ -3,12 +3,12 @@ import authReducer from '../features/authentication/authSlice'
 import { authApi } from '../services/authApi';
 import { postApi } from '../services/postApi';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import loadingReducer from '../features/loading/loadingSlice';
+import postReducer from '../features/publicPosts/postSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    loader: loadingReducer,
+    posts: postReducer,
     [authApi.reducerPath]: authApi.reducer,
     [postApi.reducerPath]: postApi.reducer,
   },

@@ -62,7 +62,7 @@ const EmojiPickers = ({status, setStatus, statusArea, changePart, bg, setbg}) =>
                 changePart && (
                     <>
                         <div className='cursor-pointer w-8 h-8 rounded-full hover:bg-gray-100 flex justify-center items-center transition-all ease-linear duration-100'
-                        onClick={() => setEmoji(prev => !prev)}>
+                        onClick={() => setEmoji(true)}>
                             <Feeling />
                         </div>
                         <div className={`absolute right-10 z-20 ${changePart? 'top-[-200px]' : 'top-[-400px]'}`} ref={emoPicker}>
@@ -105,7 +105,7 @@ const EmojiPickers = ({status, setStatus, statusArea, changePart, bg, setbg}) =>
                         }
                     </div>
                     <div className='cursor-pointer w-8 h-8 rounded-full hover:bg-gray-100 flex justify-center items-center transition-all ease-linear duration-100'
-                    onClick={() => setEmoji(prev => !prev)}>
+                    onClick={() => setEmoji(true)}>
                         <Feeling />
                     </div>
                     <div className='absolute top-[-460px] right-0' ref={emoPicker}>

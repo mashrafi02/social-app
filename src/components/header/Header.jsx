@@ -3,7 +3,6 @@ import { SearchIcon } from '../../svg/SearchIcon'
 import SearchBox from './SearchBox'
 import clickOutside from '../../utils/click'
 import { leftNavs } from '../Home_Components/HomeLeft/data'
-import { NavLink, Link } from 'react-router-dom'
 import LeftNavigations from '../Home_Components/HomeLeft/LeftNavigations'
 
 const Header = ({heading}) => {
@@ -14,7 +13,7 @@ const Header = ({heading}) => {
     clickOutside(searchBox, () => setShow(false))
 
   return (
-    <div className='flex justify-between lg:gap-x-10 items-center'>
+    <div className='flex justify-between lg:gap-x-10 items-center sticky top-0 left-0 bg-white py-6 px-2 z-20'>
         <h2 className='hidden lg:block text-xl font-gilroyBold'>{heading}</h2>
         <div className='lg:hidden w-14 h-14 rounded-full bg-cyan-100'></div>
         <div className='lg:hidden flex items-center gap-x-[10px] sm:gap-x-[50px] md:gap-x-[100px]'>

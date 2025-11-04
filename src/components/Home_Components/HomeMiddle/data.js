@@ -13,3 +13,31 @@ const postBackgrounds = [
 ]
 
 export default postBackgrounds
+
+
+export const reacts = [
+    {
+        name: 'like',
+        image: '/src/assets/reacts/like.gif'
+    },
+    {
+        name: 'love',
+        image: '/src/assets/reacts/love.gif'
+    },
+    {
+        name: 'haha',
+        image: '/src/assets/reacts/haha.gif'
+    },
+    {
+        name: 'angry',
+        image: '/src/assets/reacts/angry.gif'
+    },
+    {
+        name: 'sad',
+        image: '/src/assets/reacts/sad.gif'
+    },
+    {
+        name: 'wow',
+        image: '/src/assets/reacts/wow.gif'
+    },
+]

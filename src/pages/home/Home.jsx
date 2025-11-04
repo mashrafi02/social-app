@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MiddleIndex from '../../components/Home_Components/HomeMiddle/MiddleIndex'
 import { Helmet } from 'react-helmet-async'
 import { useSelector } from 'react-redux'
 import VerifyModal from '../../components/Home_Components/VerifyModal'
 import { Toaster } from 'react-hot-toast'
+import { useGetPostsQuery } from '../../services/postApi'
+import { useDispatch } from 'react-redux';
+import { setPosts } from '../../features/publicPosts/postSlice'
 
 
 const Home = () => {
 
   const {userData} = useSelector(state => state.auth.user)
+  const {data, isLoading, isError, error} = useGetPostsQuery();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPosts(data?.data?.allPosts))
+  }, [data?.data])
+
+  if(isError && error) console.error(error)
 
   return ( 
     <>
@@ -23,7 +34,7 @@ const Home = () => {
           </div>
         )
       }
-      <MiddleIndex /> 
+      <MiddleIndex isLoading={isLoading}/> 
     </>
   )
 }

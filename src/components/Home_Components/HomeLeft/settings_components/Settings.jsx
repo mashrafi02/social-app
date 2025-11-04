@@ -6,6 +6,7 @@ import clickOutside from '../../../../utils/click';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearUser } from '../../../../features/authentication/authSlice';
+import { clearPosts } from '../../../../features/publicPosts/postSlice';
 
 
 const Settings = ({show, setShow}) => { 
@@ -29,6 +30,7 @@ const Settings = ({show, setShow}) => {
     function handleLogout() {
         localStorage.removeItem('currentLoggedUser');
         dispatch(clearUser());
+        dispatch(clearPosts());
         navigate('/login')
     }
 
